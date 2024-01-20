@@ -1,0 +1,17 @@
+{
+	order coraza_waf first
+}
+:1234 {
+	coraza_waf {
+		load_owasp_crs
+		directives `
+		Include @coraza.conf-recommended
+		Include @crs-setup.conf.example
+		Include @owasp_crs/*.conf
+		SecRuleEngine On
+		`
+	}
+	reverse_proxy https://juiceshop-websec.herokuapp.com {
+		header_up Host {upstream_hostport}
+	}
+}
